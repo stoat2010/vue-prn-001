@@ -77,6 +77,7 @@
         transition: 1s;
         background: #fff;
         opacity: 1;
+        box-shadow: inset 20px 0 50px rgba(0,0,0, 0.5);
     }
     .card .card-front .card-body {
         font-size: 0.8em;
@@ -89,7 +90,7 @@
     .card .card-front .card-title {
         text-transform: uppercase;
         transition: 1s;
-        margin-top: 10px;
+        margin-top: 30px;
         margin-left: 20px;
         text-align: left;
     }
@@ -100,6 +101,7 @@
         margin-left: 20px;
         text-align: left;
         font-size: 0.9em;
+        opacity: 0.5;
     }
     .card .card-front hr {
         margin-left: 20px;
