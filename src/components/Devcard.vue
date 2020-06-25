@@ -22,7 +22,7 @@
             <Tonerlevel></Tonerlevel>
             <div class="graph">
                 <h2>Отпечатано в 2020</h2>
-                <Chart :width="380" :height="250"></Chart>
+                <Chart :width="380" :height="200"></Chart>
             </div>
             <div class="attbar"><Btnbar v-bind:buttons="buttons"></Btnbar></div>
         </div>
@@ -85,6 +85,7 @@
 
 <style scoped>
     .card {
+        font-family: playregular;
         position: relative;
         margin: 20px 0;
         width: 420px;
@@ -118,6 +119,7 @@
         text-align: left;
     }
     .card .card-front .card-title {
+        font-family: playbold;
         text-transform: uppercase;
         transition: 1s;
         margin-top: 10px;
@@ -126,15 +128,18 @@
     }
     .card .card-front .card-subtitle {
         text-transform: uppercase;
+        font-family: playbold;
         transition: 1s;
         margin-top: 10px;
         margin-left: 20px;
         text-align: left;
         font-size: 0.9em;
+        opacity: 0.4;
     }
     .card .card-front .attbar {
         display: flex;
-        height: 600px
+        height: 350px;
+        flex-direction: column-reverse;
     }
     .card .card-front hr {
         margin-left: 20px;

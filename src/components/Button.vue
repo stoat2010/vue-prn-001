@@ -35,7 +35,7 @@
         transition: 1s;
         pointer-events: all;
     }
-    li a:hover {
+    li a:active {
         box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     }
 

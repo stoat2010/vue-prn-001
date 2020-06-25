@@ -17,7 +17,7 @@
                 this.renderChart({
                     datasets: [
                         {
-                            borderColor: 'rgba(23, 105, 170, 1)',
+                            borderColor: 'rgb(0, 0, 0)',
                             backgroundColor: 'rgba(187, 222, 251, 1)',
                             data: [1103, 987, 1054, 1098, 874,654]
                         }
