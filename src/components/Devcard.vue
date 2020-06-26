@@ -1,5 +1,5 @@
 <template>
-    <div class="card" @mouseover="mouseOver" @mouseout="mouseOver">
+    <div class="card" @mouseover="mouseOver" @mouseout="mouseOut">
         <div class="card-front">
             <div class="card-title">31MFD504-HPE77822-634.UC.LOCAL</div>
             <div class="card-subtitle">172.25.6.119</div>
@@ -14,6 +14,7 @@
                 <span>Производитель: Hewlett-Packard</span>
                 <span>S/N: CNC1LBJ014</span>
                 <span>начальный остаток: 11 отпечатков: 33537</span>
+                <div class="attbar"><Btnbar v-bind:buttons="attentions"></Btnbar></div>
             </div>
         </div>
         <template v-if="active">
@@ -21,8 +22,9 @@
             <Tonerlevel></Tonerlevel>
             <div class="graph">
                 <h2>Отпечатано в 2020</h2>
-                <Chart :width="380" :height="250"></Chart>
+                <Chart :width="380" :height="200"></Chart>
             </div>
+            <div class="attbar"><Btnbar v-bind:buttons="buttons"></Btnbar></div>
         </div>
         </template>
     </div>
@@ -30,23 +32,52 @@
 
 <script>
 
+    const Toner = require('@/assets/icons/move_to_inbox-24px.svg')
+    const Paper = require('@/assets/icons/save_alt-24px.svg')
+    const Flag = require('@/assets/icons/flag-24px.svg')
+    const Edit = require('@/assets/icons/create-24px.svg')
+    const Camera = require('@/assets/icons/camera_alt-24px.svg')
+    const Report = require('@/assets/icons/insert_chart_outlined-24px.svg')
+    const Timer = require('@/assets/icons/av_timer-24px.svg')
+    const Trash = require('@/assets/icons/delete-24px.svg')
+
     import Tonerlevel from './Tonerlevel'
     import Chart from './Chart'
+    import Btnbar from './Btnbar'
 
     export default {
         name: "devcard",
         components: {
             Tonerlevel,
             Chart,
+            Btnbar,
         },
         data(){
             return {
-                active: false
+                active: false,
+                attentions: [
+                    {id: 0, svg: Toner, opacity: 0.1},
+                    {id: 1, svg: Flag, opacity: 1},
+                    {id: 2, svg: Paper, opacity: 0.1},
+                ],
+                buttons: [
+                    {id: 0, svg: Edit, opacity: 1},
+                    {id: 1, svg: Camera, opacity: 1},
+                    {id: 2, svg: Report, opacity: 1},
+                    {id: 3, svg: Timer, opacity: 1},
+                    {id: 4, svg: Trash, opacity: 1},
+                ],
+                myVar: undefined,
             }
         },
         methods: {
             mouseOver: function(){
-                setTimeout(()=>this.active = !this.active,500)
+                clearTimeout(this.myVar);
+                this.myVar = setTimeout(() => this.active = true, 500)
+            },
+            mouseOut: function(){
+                    clearTimeout(this.myVar);
+                    this.myVar = setTimeout(() => this.active = false, 500)
             }
         },
     }
@@ -54,6 +85,7 @@
 
 <style scoped>
     .card {
+        font-family: playregular;
         position: relative;
         margin: 20px 0;
         width: 420px;
@@ -77,7 +109,6 @@
         transition: 1s;
         background: #fff;
         opacity: 1;
-        box-shadow: inset 20px 0 50px rgba(0,0,0, 0.5);
     }
     .card .card-front .card-body {
         font-size: 0.8em;
@@ -88,20 +119,27 @@
         text-align: left;
     }
     .card .card-front .card-title {
-        text-transform: uppercase;
-        transition: 1s;
-        margin-top: 30px;
-        margin-left: 20px;
-        text-align: left;
-    }
-    .card .card-front .card-subtitle {
+        font-family: playbold;
         text-transform: uppercase;
         transition: 1s;
         margin-top: 10px;
         margin-left: 20px;
         text-align: left;
+    }
+    .card .card-front .card-subtitle {
+        text-transform: uppercase;
+        font-family: playbold;
+        transition: 1s;
+        margin-top: 10px;
+        margin-left: 20px;
+        text-align: left;
         font-size: 0.9em;
-        opacity: 0.5;
+        opacity: 0.4;
+    }
+    .card .card-front .attbar {
+        display: flex;
+        height: 350px;
+        flex-direction: column-reverse;
     }
     .card .card-front hr {
         margin-left: 20px;
@@ -118,6 +156,7 @@
     }
     .card:hover .card-front {
         transform: rotateY(-180deg);
+        box-shadow: inset 20px 0 50px rgba(0,0,0, 0.5);
     }
     .card:hover .card-front .card-title {
         transform: rotateY(-180deg);
@@ -135,6 +174,10 @@
         transition: 1s;
     }
     .card:hover .card-front p {
+        transform: rotateY(-180deg);
+        transition: 1s;
+    }
+    .card:hover .card-front .attbar {
         transform: rotateY(-180deg);
         transition: 1s;
     }

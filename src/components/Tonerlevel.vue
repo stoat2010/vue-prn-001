@@ -4,22 +4,22 @@
         <svg width='388px' height='20px'>
             <rect class = "outher-rect" width="388px" height="17" x="0" y="0" rx="3" ry="3"/>
             <rect class="black-inner-rect" width="194px" height="15" x="1" y="1" rx="3" ry="3"  />
-            <text x="170" y="13" fill="white" fontSize="0.5rem">50%</text>
+            <text class="percent" x="170" y="13" fill="white">50%</text>
         </svg>
         <svg width='388px' height='20px'>
             <rect class = "outher-rect" width="388px" height="17" x="0" y="0" rx="3" ry="3"/>
             <rect class="red-inner-rect" width="194px" height="15" x="1" y="1" rx="3" ry="3"  />
-            <text x="170" y="13" fill="white" fontSize="0.5rem">50%</text>
+            <text class="percent" x="170" y="13" fill="white">50%</text>
         </svg>
         <svg width='388px' height='20px'>
             <rect class = "outher-rect" width="388px" height="17" x="0" y="0" rx="3" ry="3"/>
             <rect class="cyan-inner-rect" width="194px" height="15" x="1" y="1" rx="3" ry="3"  />
-            <text x="170" y="13" fill="white" fontSize="0.5rem">50%</text>
+            <text class="percent" x="170" y="13" fill="white">50%</text>
         </svg>
         <svg width='388px' height='20px'>
             <rect class = "outher-rect" width="388px" height="17" x="0" y="0" rx="3" ry="3"/>
             <rect class="yellow-inner-rect" width="194px" height="15" x="1" y="1" rx="3" ry="3"  />
-            <text x="170" y="13" fill="white" fontSize="0.5rem">50%</text>
+            <text class="percent" x="170" y="13" fill="white">50%</text>
         </svg>
     </div>
 </template>
@@ -58,5 +58,9 @@
     }
     .toner {
         transition: 1s;
+    }
+    .percent {
+        font-size: 0.7rem;
+        font-weight: bold;
     }
 </style>
