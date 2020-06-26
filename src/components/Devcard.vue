@@ -14,18 +14,22 @@
                 <span>Производитель: Hewlett-Packard</span>
                 <span>S/N: CNC1LBJ014</span>
                 <span>начальный остаток: 11 отпечатков: 33537</span>
-                <div class="attbar"><Btnbar v-bind:buttons="attentions"></Btnbar></div>
+                <div class="attbar">
+                    <Btnbar v-bind:buttons="attentions"></Btnbar>
+                </div>
             </div>
         </div>
         <template v-if="active">
-        <div class="details">
-            <Tonerlevel></Tonerlevel>
-            <div class="graph">
-                <h2>Отпечатано в 2020</h2>
-                <Chart :width="380" :height="200"></Chart>
+            <div class="details">
+                <Tonerlevel></Tonerlevel>
+                <div class="graph">
+                    <h2>Отпечатано в 2020</h2>
+                    <Chart :width="380" :height="200"></Chart>
+                </div>
+                <div class="attbar">
+                    <Btnbar v-bind:buttons="buttons"></Btnbar>
+                </div>
             </div>
-            <div class="attbar"><Btnbar v-bind:buttons="buttons"></Btnbar></div>
-        </div>
         </template>
     </div>
 </template>
@@ -52,7 +56,7 @@
             Chart,
             Btnbar,
         },
-        data(){
+        data() {
             return {
                 active: false,
                 attentions: [
@@ -61,8 +65,8 @@
                     {id: 2, svg: Paper, opacity: 0.1},
                 ],
                 buttons: [
-                    {id: 0, svg: Edit, opacity: 1},
-                    {id: 1, svg: Camera, opacity: 1},
+                    {id: 0, svg: Edit, opacity: 0.1},
+                    {id: 1, svg: Camera, opacity: 0.1},
                     {id: 2, svg: Report, opacity: 1},
                     {id: 3, svg: Timer, opacity: 1},
                     {id: 4, svg: Trash, opacity: 1},
@@ -71,13 +75,13 @@
             }
         },
         methods: {
-            mouseOver: function(){
+            mouseOver: function () {
                 clearTimeout(this.myVar);
                 this.myVar = setTimeout(() => this.active = true, 500)
             },
-            mouseOut: function(){
-                    clearTimeout(this.myVar);
-                    this.myVar = setTimeout(() => this.active = false, 500)
+            mouseOut: function () {
+                clearTimeout(this.myVar);
+                this.myVar = setTimeout(() => this.active = false, 500)
             }
         },
     }
@@ -94,11 +98,14 @@
         transform-style: preserve-3d;
         transform: perspective(2000px);
         transition: 1s;
-        box-shadow: inset 300px 0 50px rgba(0,0,0, 0.5);
+        box-shadow: inset 300px 0 50px rgba(0, 0, 0, 0.5);
+        border-radius: 0 10px 10px 0;
     }
+
     .card:hover {
-        box-shadow: inset 20px 0 50px rgba(0,0,0, 0.5);
+        box-shadow: inset 20px 0 50px rgba(0, 0, 0, 0.5);
     }
+
     .card .card-front {
         width: 100%;
         height: 100%;
@@ -109,7 +116,9 @@
         transition: 1s;
         background: #fff;
         opacity: 1;
+        border-radius: 0 5px 5px 0;
     }
+
     .card .card-front .card-body {
         font-size: 0.8em;
         width: 100%;
@@ -118,6 +127,7 @@
         justify-content: space-around;
         text-align: left;
     }
+
     .card .card-front .card-title {
         font-family: playbold;
         text-transform: uppercase;
@@ -126,6 +136,7 @@
         margin-left: 20px;
         text-align: left;
     }
+
     .card .card-front .card-subtitle {
         text-transform: uppercase;
         font-family: playbold;
@@ -136,51 +147,62 @@
         font-size: 0.9em;
         opacity: 0.4;
     }
+
     .card .card-front .attbar {
         display: flex;
         height: 350px;
         flex-direction: column-reverse;
     }
+
     .card .card-front hr {
         margin-left: 20px;
         margin-right: 20px;
         color: #eeeeee;
         background-color: #eeeeee;
     }
-    .card .card-front span{
+
+    .card .card-front span {
         margin-left: 20px;
         transition: 1s;
     }
+
     .card .card-front p {
         transition: 1s;
     }
+
     .card:hover .card-front {
         transform: rotateY(-180deg);
-        box-shadow: inset 20px 0 50px rgba(0,0,0, 0.5);
+        box-shadow: inset 20px 0 50px rgba(0, 0, 0, 0.5);
     }
+
     .card:hover .card-front .card-title {
         transform: rotateY(-180deg);
         transition: 1s;
         margin-right: 20px;
     }
+
     .card:hover .card-front .card-subtitle {
         transform: rotateY(-180deg);
         transition: 1s;
         margin-right: 20px;
     }
-    .card:hover .card-front span{
+
+    .card:hover .card-front span {
         transform: rotateY(-180deg);
         margin-right: 20px;
         transition: 1s;
     }
+
     .card:hover .card-front p {
         transform: rotateY(-180deg);
         transition: 1s;
     }
+
     .card:hover .card-front .attbar {
         transform: rotateY(-180deg);
         transition: 1s;
     }
+
     .card .details {
         position: absolute;
         top: 0;
@@ -195,6 +217,7 @@
         flex-direction: column;
         justify-content: space-between;
     }
+
     .card:hover .details {
         position: absolute;
         top: 0;
@@ -205,6 +228,7 @@
         color: #000;
         transition: 2s;
     }
+
     .graph {
         width: 100%;
         height: 300px;
