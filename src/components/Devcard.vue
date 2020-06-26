@@ -99,7 +99,7 @@
         transform: perspective(2000px);
         transition: 1s;
         box-shadow: inset 300px 0 50px rgba(0, 0, 0, 0.5);
-        border-radius: 0 10px 10px 0;
+        border-radius: 0 5px 5px 0;
     }
 
     .card:hover {
