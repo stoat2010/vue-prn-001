@@ -20,7 +20,6 @@
 <style scoped>
     .bar {
         width: 100%;
-        transition: 1s;
         display: flex;
         justify-content: center;
         flex-direction: column-reverse;

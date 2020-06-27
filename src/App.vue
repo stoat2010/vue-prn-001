@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <devcard></devcard>
+    <devcard></devcard>
+    <devcard></devcard>
+    <devcard></devcard>
   </div>
 </template>
 
@@ -48,8 +51,9 @@ export default {
   padding: 0;
   background: #f2f2f2;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 </style>
