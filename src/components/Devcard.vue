@@ -1,19 +1,19 @@
 <template>
     <div class="card" @mouseover="mouseOver" @mouseout="mouseOut">
         <div class="card-front">
-            <div class="card-title">31MFD504-HPE77822-634.UC.LOCAL</div>
-            <div class="card-subtitle">172.25.6.119</div>
+            <div class="card-title">{{this.device.name}}</div>
+            <div class="card-subtitle">{{this.device.device}}</div>
             <hr>
             <div class="card-body">
-                <span>цех/отдел: Центр печати</span>
-                <span>корпус: 504 кабинет: 305а</span>
-                <span>принято 23.04.2019</span>
-                <span>отпечатков с начала месяца: 2824, цветных: 2130, ч/б: 694</span>
+                <span>цех/отдел: {{this.device.unit}}</span>
+                <span>корпус: {{this.device.build}} кабинет: {{this.device.office}}</span>
+                <span>принято {{this.start_date}}</span>
+                <span class="line"><span class="inline">отпечатков с начала месяца: {{printouts}}</span><span class="inline" v-if="this.device.type">, цветных: {{color_printouts}}, ч/б: {{bw_printouts}}</span></span>
                 <br>
-                <span>Модель: HP Color LaserJet MFP E77822</span>
-                <span>Производитель: Hewlett-Packard</span>
-                <span>S/N: CNC1LBJ014</span>
-                <span>начальный остаток: 11 отпечатков: 33537</span>
+                <span>Модель: {{this.device.model}}</span>
+                <span>Производитель: {{this.device.vendor}}</span>
+                <span>S/N: {{this.device.serial}}</span>
+                <span>начальный остаток: {{this.device.balance}} отпечатков: {{this.device.result.printouts}}</span>
                 <div class="attbar">
                     <Btnbar v-bind:buttons="attentions"></Btnbar>
                 </div>
@@ -51,6 +51,7 @@
 
     export default {
         name: "devcard",
+        props: ['device'],
         components: {
             Tonerlevel,
             Chart,
@@ -72,6 +73,20 @@
                     {id: 4, svg: Trash, opacity: 1},
                 ],
                 myVar: undefined,
+            }
+        },
+        computed: {
+            printouts(){
+                return this.device.result.printouts - this.device.result.start_printouts
+            },
+            color_printouts(){
+                return this.device.result.col_printouts - this.device.result.start_col_printouts
+            },
+            bw_printouts(){
+                return this.device.result.bw_printouts - this.device.result.start_bw_printouts
+            },
+            start_date() {
+                return new Date(this.device.start_date).toLocaleDateString();
             }
         },
         methods: {
@@ -228,9 +243,16 @@
         color: #000;
         transition: 2s;
     }
-
     .graph {
         width: 100%;
         height: 300px;
+    }
+    .line {
+        float: left;
+    }
+    .inline {
+        display: contents;
+        margin: 0px;
+        padding: 0px;
     }
 </style>
