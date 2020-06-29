@@ -1,12 +1,18 @@
 <template>
   <div id="app">
-    <devcard v-for="device in this.allDevices" :key="device._id" v-bind:device="device"></devcard>
+    <template v-if="devLength>0">
+      <devcard v-for="device in this.allDevices" :key="device._id" v-bind:device="device"></devcard>
+    </template>
+  <template v-else>
+    <Error></Error>
+  </template>
   </div>
 </template>
 
 <script>
 
 import Devcard from "./components/Devcard";
+import Error from "./components/Error"
 
 
 import {mapGetters, mapActions} from 'vuex'
@@ -14,10 +20,10 @@ import {mapGetters, mapActions} from 'vuex'
 export default {
   name: 'App',
   components: {
-    Devcard
-
+    Devcard,
+    Error
   },
-  computed: mapGetters(['allDevices']),
+  computed: mapGetters(['allDevices', 'devLength']),
   methods: mapActions(['fetchDevices']),
   mounted() {
     this.fetchDevices()

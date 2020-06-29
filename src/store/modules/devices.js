@@ -13,10 +13,14 @@ export default {
     },
     state: {
         devices: [],
+        length: 0,
     },
     getters: {
         allDevices(state){
             return state.devices.filter(elem => elem.convenience === true)
+        },
+        devLength(state){
+            return state.devices.length
         }
     },
 }
