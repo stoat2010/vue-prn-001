@@ -1,9 +1,6 @@
 <template>
   <div id="app">
-    <devcard></devcard>
-    <devcard></devcard>
-    <devcard></devcard>
-    <devcard></devcard>
+    <devcard v-for="device in this.allDevices" :key="device._id" v-bind:device="device"></devcard>
   </div>
 </template>
 
@@ -11,11 +8,19 @@
 
 import Devcard from "./components/Devcard";
 
+
+import {mapGetters, mapActions} from 'vuex'
+
 export default {
   name: 'App',
   components: {
     Devcard
 
+  },
+  computed: mapGetters(['allDevices']),
+  methods: mapActions(['fetchDevices']),
+  mounted() {
+    this.fetchDevices()
   }
 }
 </script>
