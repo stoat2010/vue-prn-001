@@ -19,8 +19,10 @@
         background-color: #eeeeee;
         display: flex;
         justify-content: center;
+        align-items: center;
     }
     .error {
+        position: relative;
         width: 80%;
         height: 100px;
         font-weight: 400;
@@ -29,7 +31,6 @@
         color: #fff;
         margin-left: 20px;
         margin-right: 20px;
-        top:50%;
-        left: 50%;
+        vertical-align: middle;
     }
 </style>
