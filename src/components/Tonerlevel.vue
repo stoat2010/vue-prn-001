@@ -1,32 +1,18 @@
 <template>
     <div class="toner">
-        <h2>Уровень тонера</h2>
+
         <svg width='388px' height='20px'>
             <rect class = "outher-rect" width="388px" height="17" x="0" y="0" rx="3" ry="3"/>
-            <rect class="black-inner-rect" width="194px" height="15" x="1" y="1" rx="3" ry="3"  />
-            <text class="percent" x="170" y="13" fill="white">50%</text>
-        </svg>
-        <svg width='388px' height='20px'>
-            <rect class = "outher-rect" width="388px" height="17" x="0" y="0" rx="3" ry="3"/>
-            <rect class="red-inner-rect" width="194px" height="15" x="1" y="1" rx="3" ry="3"  />
-            <text class="percent" x="170" y="13" fill="white">50%</text>
-        </svg>
-        <svg width='388px' height='20px'>
-            <rect class = "outher-rect" width="388px" height="17" x="0" y="0" rx="3" ry="3"/>
-            <rect class="cyan-inner-rect" width="194px" height="15" x="1" y="1" rx="3" ry="3"  />
-            <text class="percent" x="170" y="13" fill="white">50%</text>
-        </svg>
-        <svg width='388px' height='20px'>
-            <rect class = "outher-rect" width="388px" height="17" x="0" y="0" rx="3" ry="3"/>
-            <rect class="yellow-inner-rect" width="194px" height="15" x="1" y="1" rx="3" ry="3"  />
-            <text class="percent" x="170" y="13" fill="white">50%</text>
+            <rect class="black-inner-rect"  v-bind:width="this.toner_level*388/100" :class="{'red-inner-rect': this.type === 1, 'cyan-inner-rect': this.type === 2, 'yellow-inner-rect': this.type === 3}" height="15" x="1" y="1" rx="3" ry="3"  />
+            <text class="percent" x="170" y="13" fill="white">{{this.toner_level}}%</text>
         </svg>
     </div>
 </template>
 
 <script>
     export default {
-        name: "tonerlevel"
+        name: "tonerlevel",
+        props: ['type', 'toner_level']
     }
 </script>
 

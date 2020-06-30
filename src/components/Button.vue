@@ -1,5 +1,5 @@
 <template>
-    <li><a href="#"><div class="fa"><img :src=this.svg :style="style"></div></a></li>
+    <li><a href="#"><div class="fa"><img :style="style" :src=this.svg></div></a></li>
 </template>
 
 <script>
@@ -8,7 +8,11 @@
         props: ["svg", "opacity"],
         computed: {
           style() {
-              return 'opacity: ' + this.opacity
+              if (this.opacity) {
+                  return 'opacity: ' + 1
+              }else{
+                  return 'opacity: ' + 0.1
+              }
           },
         },
     }
@@ -53,11 +57,14 @@
         width: 35px;
         height: 35px;
         display: block;
-
+        opacity: 1;
     }
     li a .fa svg {
         width: 24px;
         height: 24px;
         display: block;
+    }
+    li a .fa img .enable {
+        opacity: 0.1
     }
 </style>

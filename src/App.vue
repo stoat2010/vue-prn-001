@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <template v-if="devLength>0">
-      <devcard v-for="device in this.allDevices" :key="device._id" v-bind:device="device"></devcard>
+      <div class="container">
+        <devcard v-for="device in this.allDevices" :key="device._id" v-bind:device="device"></devcard>
+      </div>
     </template>
   <template v-else>
     <Error></Error>
@@ -24,9 +26,26 @@ export default {
     Error
   },
   computed: mapGetters(['allDevices', 'devLength']),
-  methods: mapActions(['fetchDevices']),
+  methods: {
+    ...mapActions(['fetchDevices']),
+    stopTimer () {
+      if (this.interval) {
+        window.clearInterval(this.interval)
+      }
+    },
+    startTimer () {
+      this.stopTimer()
+      this.interval = window.setInterval(() => {
+        this.fetchDevices()
+      }, 300000)
+    }
+  },
   mounted() {
-    this.fetchDevices()
+    this.fetchDevices();
+    this.startTimer();
+  },
+  beforeDestroy() {
+    this.stopTimer();
   }
 }
 </script>
@@ -64,7 +83,19 @@ export default {
   width: 100%;
   min-height: 100vh;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
+  align-items: center;
 }
+  .container {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 75%;
+    min-height: 100vh;
+    background-color: #9e9e9e;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+  }
 </style>

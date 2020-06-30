@@ -21,10 +21,19 @@
         </div>
         <template v-if="active">
             <div class="details">
-                <Tonerlevel></Tonerlevel>
+                <h2>Уровень тонера</h2>
+                <Tonerlevel v-bind:type="0" :toner_level='this.toner_level(+this.device.result.black_toner[3],+this.device.result.black_toner[2])'></Tonerlevel>
+                <template v-if="this.device.type">
+                    <Tonerlevel v-bind:type="1" :toner_level='this.toner_level(+this.device.result.red_toner[3],+this.device.result.red_toner[2])'></Tonerlevel>
+                    <Tonerlevel v-bind:type="2" :toner_level='this.toner_level(+this.device.result.cyan_toner[3],+this.device.result.cyan_toner[2])'></Tonerlevel>
+                    <Tonerlevel v-bind:type="3" :toner_level='this.toner_level(+this.device.result.yellow_toner[3],+this.device.result.yellow_toner[2])'></Tonerlevel>
+                </template>
+                <template v-else>
+                    <div style="min-height: 70px; width: 100%"></div>
+                </template>
                 <div class="graph">
                     <h2>Отпечатано в 2020</h2>
-                    <Chart :width="380" :height="200"></Chart>
+                    <Chart :width="380" :height="200" v-bind:values='this.devGraphs'></Chart>
                 </div>
                 <div class="attbar">
                     <Btnbar v-bind:buttons="buttons"></Btnbar>
@@ -49,6 +58,8 @@
     import Chart from './Chart'
     import Btnbar from './Btnbar'
 
+    import {mapGetters, mapActions} from 'vuex'
+
     export default {
         name: "devcard",
         props: ['device'],
@@ -61,9 +72,9 @@
             return {
                 active: false,
                 attentions: [
-                    {id: 0, svg: Toner, opacity: 0.1},
-                    {id: 1, svg: Flag, opacity: 1},
-                    {id: 2, svg: Paper, opacity: 0.1},
+                    {id: 0, svg: Toner, opacity: this.toner_alarm()},
+                    {id: 1, svg: Flag, opacity: this.device.result.snmp_error},
+                    {id: 2, svg: Paper, opacity: this.paper_alarm()},
                 ],
                 buttons: [
                     {id: 0, svg: Edit, opacity: 0.1},
@@ -73,9 +84,11 @@
                     {id: 4, svg: Trash, opacity: 1},
                 ],
                 myVar: undefined,
+
             }
         },
         computed: {
+            ...mapGetters(['devGraphs']),
             printouts(){
                 return this.device.result.printouts - this.device.result.start_printouts
             },
@@ -87,17 +100,49 @@
             },
             start_date() {
                 return new Date(this.device.start_date).toLocaleDateString();
-            }
+            },
         },
         methods: {
+            ...mapActions(['fetchGraphs']),
             mouseOver: function () {
                 clearTimeout(this.myVar);
-                this.myVar = setTimeout(() => this.active = true, 500)
+                this.myVar = setTimeout(() => {
+                    this.active = true;
+                    this.fetchGraphs(this.device.name, new Date().getFullYear())
+                }, 500)
             },
             mouseOut: function () {
                 clearTimeout(this.myVar);
                 this.myVar = setTimeout(() => this.active = false, 500)
-            }
+            },
+            toner_level: function(curr, max) {
+                return 100*curr/max;
+            },
+            toner_alarm: function() {
+                if (!this.device.type){
+                    if ( +this.device.result.black_toner[3] < 5){
+                        return true
+                    } else {
+                        return false
+                    }
+                } else {
+                    if ( +this.device.result.black_toner[3] < 5 || +this.device.result.red_toner[3] < 5 || +this.device.result.cyan_toner[3] < 5 || +this.device.result.yellow_toner[3] < 5){
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+
+            },
+            paper_alarm: function() {
+                if (+this.device.tray_status > 0 ){
+                    return true
+                } else {
+                        return false
+                }
+
+            },
+
         },
     }
 </script>
