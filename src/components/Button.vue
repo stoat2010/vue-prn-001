@@ -24,8 +24,8 @@
     }
     li a {
         position: relative;
-        width: 50px;
-        height: 50px;
+        width: 35px;
+        height: 35px;
         background: #f1f1f1;
         display: block;
         text-align: center;
@@ -49,13 +49,13 @@
         display: flex;
         justify-content: center;
         border-radius: 50%;
-        line-height: calc(50px - 12px);
+        line-height: calc(35px - 12px);
         align-items: center;
         background: linear-gradient(0deg, #fff, #ddd);
     }
     li a .fa img {
-        width: 35px;
-        height: 35px;
+        width: 24px;
+        height: 24px;
         display: block;
         opacity: 1;
     }

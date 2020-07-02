@@ -43,6 +43,8 @@
         pointer-events: none;
     }
     .toner {
+        margin-right: 20px;
+        transform: rotateY(-180deg);
         transition: 1s;
     }
     .percent {

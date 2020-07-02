@@ -79,7 +79,6 @@ export default {
   color: #2c3e50;
   margin: 0;
   padding: 0;
-  background: #f2f2f2;
   width: 100%;
   min-height: 100vh;
   display: flex;

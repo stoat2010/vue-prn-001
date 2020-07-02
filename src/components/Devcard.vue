@@ -5,15 +5,29 @@
             <div class="card-subtitle">{{this.device.device}}</div>
             <hr>
             <div class="card-body">
-                <span>цех/отдел: {{this.device.unit}}</span>
-                <span>корпус: {{this.device.build}} кабинет: {{this.device.office}}</span>
-                <span>принято {{this.start_date}}</span>
-                <span class="line"><span class="inline">отпечатков с начала месяца: {{printouts}}</span><span class="inline" v-if="this.device.type">, цветных: {{color_printouts}}, ч/б: {{bw_printouts}}</span></span>
-                <br>
-                <span>Модель: {{this.device.model}}</span>
-                <span>Производитель: {{this.device.vendor}}</span>
-                <span>S/N: {{this.device.serial}}</span>
-                <span>начальный остаток: {{this.device.balance}} отпечатков: {{this.device.result.printouts}}</span>
+                <template v-if="active">
+                    <h2>Уровень тонера</h2>
+                    <Tonerlevel v-bind:type="0" :toner_level='this.toner_level(+this.device.result.black_toner[3],+this.device.result.black_toner[2])'></Tonerlevel>
+                    <template v-if="this.device.type">
+                        <Tonerlevel v-bind:type="1" :toner_level='this.toner_level(+this.device.result.red_toner[3],+this.device.result.red_toner[2])'></Tonerlevel>
+                        <Tonerlevel v-bind:type="2" :toner_level='this.toner_level(+this.device.result.cyan_toner[3],+this.device.result.cyan_toner[2])'></Tonerlevel>
+                        <Tonerlevel v-bind:type="3" :toner_level='this.toner_level(+this.device.result.yellow_toner[3],+this.device.result.yellow_toner[2])'></Tonerlevel>
+                    </template>
+                    <template v-else>
+                        <div style="min-height: 70px; width: 100%"></div>
+                    </template>
+                </template>
+                <template v-else>
+                    <span>цех/отдел: {{this.device.unit}}</span>
+                    <span>корпус: {{this.device.build}} кабинет: {{this.device.office}}</span>
+                    <span>принято {{this.start_date}}</span>
+                    <span class="line"><span class="inline">отпечатков с начала месяца: {{printouts}}</span><span class="inline" v-if="this.device.type">, цветных: {{color_printouts}}, ч/б: {{bw_printouts}}</span></span>
+                    <br>
+                    <span>Модель: {{this.device.model}}</span>
+                    <span>Производитель: {{this.device.vendor}}</span>
+                    <span>S/N: {{this.device.serial}}</span>
+                    <span>начальный остаток: {{this.device.balance}} отпечатков: {{this.device.result.printouts}}</span>
+                </template>
                 <div class="attbar">
                     <Btnbar v-bind:buttons="attentions"></Btnbar>
                 </div>
@@ -21,7 +35,7 @@
         </div>
         <template v-if="active">
             <div class="details">
-                <h2>Уровень тонера</h2>
+                <!--<h2>Уровень тонера</h2>
                 <Tonerlevel v-bind:type="0" :toner_level='this.toner_level(+this.device.result.black_toner[3],+this.device.result.black_toner[2])'></Tonerlevel>
                 <template v-if="this.device.type">
                     <Tonerlevel v-bind:type="1" :toner_level='this.toner_level(+this.device.result.red_toner[3],+this.device.result.red_toner[2])'></Tonerlevel>
@@ -30,7 +44,7 @@
                 </template>
                 <template v-else>
                     <div style="min-height: 70px; width: 100%"></div>
-                </template>
+                </template>-->
                 <div class="graph">
                     <h2>Отпечатано в 2020</h2>
                     <Chart :width="380" :height="200" v-bind:values='this.devGraphs'></Chart>
@@ -116,7 +130,11 @@
                 this.myVar = setTimeout(() => this.active = false, 500)
             },
             toner_level: function(curr, max) {
-                return 100*curr/max;
+                if(curr>0) {
+                    return 100 * curr / max;
+                }else{
+                    return 0;
+                }
             },
             toner_alarm: function() {
                 if (!this.device.type){
@@ -153,7 +171,7 @@
         position: relative;
         margin: 20px 0;
         width: 420px;
-        height: 600px;
+        height: 350px;
         background: #fff;
         transform-style: preserve-3d;
         transform: perspective(2000px);
@@ -184,8 +202,9 @@
         width: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
+        justify-content: space-between;
         text-align: left;
+        min-height: 285px;
     }
 
     .card .card-front .card-title {
@@ -210,7 +229,8 @@
 
     .card .card-front .attbar {
         display: flex;
-        height: 350px;
+        left: 0px;
+        bottom: 0px;
         flex-direction: column-reverse;
     }
 
@@ -257,6 +277,11 @@
         transform: rotateY(-180deg);
         transition: 1s;
     }
+    .card:hover .card-front H2 {
+        transform: rotateY(-180deg);
+        transition: 1s;
+        text-align: center;
+    }
 
     .card:hover .card-front .attbar {
         transform: rotateY(-180deg);
@@ -290,7 +315,8 @@
     }
     .graph {
         width: 100%;
-        height: 300px;
+        height: 220px;
+        margin-bottom: 45px;
     }
     .line {
         float: left;
