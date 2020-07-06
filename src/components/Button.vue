@@ -9,7 +9,7 @@
         computed: {
           style() {
               if (this.opacity) {
-                  return 'opacity: ' + 1
+                  return 'opacity: 1; fill:'
               }else{
                   return 'opacity: ' + 0.1
               }

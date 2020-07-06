@@ -17,12 +17,16 @@ export default {
         },
         getGraphs(state, graphs){
             state.graphs = graphs
-        }
+        },
+        addPopup(state, popup){
+            state.popups.push(popup)
+        },
     },
     state: {
         devices: [],
         length: 0,
         graphs: {},
+        popups: [],
     },
     getters: {
         allDevices(state){
@@ -33,6 +37,9 @@ export default {
         },
         devGraphs(state){
             return state.graphs.prouts
+        },
+        getPopups(state) {
+            return state.popups
         }
     },
 }

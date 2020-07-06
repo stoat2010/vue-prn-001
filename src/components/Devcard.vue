@@ -35,16 +35,6 @@
         </div>
         <template v-if="active">
             <div class="details">
-                <!--<h2>Уровень тонера</h2>
-                <Tonerlevel v-bind:type="0" :toner_level='this.toner_level(+this.device.result.black_toner[3],+this.device.result.black_toner[2])'></Tonerlevel>
-                <template v-if="this.device.type">
-                    <Tonerlevel v-bind:type="1" :toner_level='this.toner_level(+this.device.result.red_toner[3],+this.device.result.red_toner[2])'></Tonerlevel>
-                    <Tonerlevel v-bind:type="2" :toner_level='this.toner_level(+this.device.result.cyan_toner[3],+this.device.result.cyan_toner[2])'></Tonerlevel>
-                    <Tonerlevel v-bind:type="3" :toner_level='this.toner_level(+this.device.result.yellow_toner[3],+this.device.result.yellow_toner[2])'></Tonerlevel>
-                </template>
-                <template v-else>
-                    <div style="min-height: 70px; width: 100%"></div>
-                </template>-->
                 <div class="graph">
                     <h2>Отпечатано в 2020</h2>
                     <Chart :width="380" :height="200" v-bind:values='this.devGraphs'></Chart>
@@ -72,7 +62,7 @@
     import Chart from './Chart'
     import Btnbar from './Btnbar'
 
-    import {mapGetters, mapActions} from 'vuex'
+    import {mapGetters, mapActions, mapMutations} from 'vuex'
 
     export default {
         name: "devcard",
@@ -86,16 +76,16 @@
             return {
                 active: false,
                 attentions: [
-                    {id: 0, svg: Toner, opacity: this.toner_alarm()},
+                    {id: 0, svg: Toner, opacity: this.toner_alarm},
                     {id: 1, svg: Flag, opacity: this.device.result.snmp_error},
-                    {id: 2, svg: Paper, opacity: this.paper_alarm()},
+                    {id: 2, svg: Paper, opacity: this.paper},
                 ],
                 buttons: [
                     {id: 0, svg: Edit, opacity: 0.1},
                     {id: 1, svg: Camera, opacity: 0.1},
-                    {id: 2, svg: Report, opacity: 1},
-                    {id: 3, svg: Timer, opacity: 1},
-                    {id: 4, svg: Trash, opacity: 1},
+                    {id: 2, svg: Report, opacity:this.changeOpacity("inreport")},
+                    {id: 3, svg: Timer, opacity: this.changeOpacity("convenience")},
+                    {id: 4, svg: Trash, opacity: 1, fill: "black"},
                 ],
                 myVar: undefined,
 
@@ -115,9 +105,55 @@
             start_date() {
                 return new Date(this.device.start_date).toLocaleDateString();
             },
+            toner_alarm: function() {
+                if (!this.device.type) {
+                    if (+this.device.result.black_toner[3] < 5) {
+                        return true
+                    } else {
+                        return false
+                    }
+                } else {
+                    if (+this.device.result.black_toner[3] < 5 || +this.device.result.red_toner[3] < 5 || +this.device.result.cyan_toner[3] < 5 || +this.device.result.yellow_toner[3] < 5) {
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+            },
+            paper: function() {
+                    if (this.device.convenience) {
+                        if ( this.device.tray_status > 0) {
+                            return true
+                        } else {
+                            return false
+                        }
+                    }else{
+                        return false
+                    }
+            }
+        },
+        watch: {
+          paper: function(newVal) {
+              console.log('tray status ' + this.device.device + ' changed to:' + newVal)
+              if(newVal){
+                  this.addPopup({
+                      id: Date.now(),
+                      type: 'alert',
+                      device: this.device.name,
+                      tray: this.device.tray_status === 1 ? "2" : this.device.tray_status === 2 ? "3" : "2 и 3"
+                  });
+                  console.log({
+                      id: Date.now(),
+                      type: 'alert',
+                      device: this.device.name,
+                      tray: this.device.tray_status === 1 ? "2" : this.device.tray_status === 2 ? "3" : "2 и 3"
+                  })
+              }
+          }
         },
         methods: {
             ...mapActions(['fetchGraphs']),
+            ...mapMutations(['addPopup']),
             mouseOver: function () {
                 clearTimeout(this.myVar);
                 this.myVar = setTimeout(() => {
@@ -136,32 +172,23 @@
                     return 0;
                 }
             },
-            toner_alarm: function() {
-                if (!this.device.type){
-                    if ( +this.device.result.black_toner[3] < 5){
-                        return true
-                    } else {
-                        return false
-                    }
-                } else {
-                    if ( +this.device.result.black_toner[3] < 5 || +this.device.result.red_toner[3] < 5 || +this.device.result.cyan_toner[3] < 5 || +this.device.result.yellow_toner[3] < 5){
-                        return true
-                    } else {
-                        return false
-                    }
-                }
-
-            },
-            paper_alarm: function() {
-                if (+this.device.tray_status > 0 ){
+            changeOpacity: function(field) {
+                if (this.device[field]){
                     return true
                 } else {
-                        return false
+                    return false
                 }
 
             },
-
         },
+        created() {
+            this.attentions[0].opacity = this.toner_alarm;
+            this.attentions[2].opacity = this.paper;
+        },
+        beforeUpdate() {
+            this.attentions[0].opacity = this.toner_alarm;
+            this.attentions[2].opacity = this.paper;
+        }
     }
 </script>
 
