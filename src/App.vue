@@ -3,11 +3,9 @@
     <template v-if="devLength>0">
       <Navbar></Navbar>
       <div class="popups">
-        <div class="popup" v-for="popup in this.getPopups">
-
-          <h4>В устройстве: {{popup.device}}</h4>
-          <p>заканчивается бумага в лотке: {{popup.tray}}</p>
-        </div>
+        <template v-for="popup in this.getPopups">
+          <Popup v-bind:popup="popup"></Popup>
+        </template>
       </div>
       <div class="container">
         <devcard v-for="device in this.allDevices" :key="device._id" v-bind:device="device"></devcard>
@@ -24,13 +22,15 @@
 import Devcard from "./components/Devcard";
 import Error from "./components/Error";
 import Navbar from './components/Navbar';
-
+import Popup from './components/Popup';
 
 import {mapGetters, mapActions} from 'vuex'
+
 
 export default {
   name: 'App',
   components: {
+    Popup,
     Devcard,
     Error,
     Navbar,
@@ -117,15 +117,5 @@ export default {
     width: 390px;
     height:100%;
     background-color: white;
-  }
-  .popups .popup{
-    margin: 10px;
-    width: 370px;
-    height: 120px;
-    background-color: white;
-    color: rgb(216,77,110);
-    border-radius: 5px;
-    border: 1px solid rgb(216,77,110);
-    box-shadow: 10px 10px 5px #dddddd;
   }
 </style>

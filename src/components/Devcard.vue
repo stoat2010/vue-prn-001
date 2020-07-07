@@ -134,22 +134,88 @@
         },
         watch: {
           paper: function(newVal) {
-              console.log('tray status ' + this.device.device + ' changed to:' + newVal)
+
               if(newVal){
+                  if (this.device.tray_status === 1) {
+                      this.addPopup({
+                          id: Date.now(),
+                          type: true,
+                          device: this.device.name,
+                          message: "Заканчивается бумага в лотке № 2"
+                      });
+                  }
+                  if (this.device.tray_status === 2) {
+                      this.addPopup({
+                          id: Date.now(),
+                          type: true,
+                          device: this.device.name,
+                          message: "Заканчивается бумага в лотке № 3"
+                      });
+                  }
+                  if (this.device.tray_status === 3) {
+                      this.addPopup({
+                          id: Date.now(),
+                          type: true,
+                          device: this.device.name,
+                          message: "Заканчивается бумага в лотках № 2 и 3"
+                      });
+                  }
+              }
+          },
+          toner_alarm: function(newVal) {
+              if(newVal) {
+                  if (!this.device.type) {
+                      if (+this.device.result.black_toner[3] < 2) {
+                          this.addPopup({
+                              id: Date.now(),
+                              type: true,
+                              device: this.device.name,
+                              message: "Заканчивается чёрный тонер"
+                          });
+                      }
+                  } else {
+                      if (+this.device.result.black_toner[3] < 2) {
+                          this.addPopup({
+                              id: Date.now(),
+                              type: true,
+                              device: this.device.name,
+                              message: "Заканчивается чёрный тонер"
+                          });
+                      }
+                      if (+this.device.result.red_toner[3] < 2) {
+                          this.addPopup({
+                              id: Date.now(),
+                              type: true,
+                              device: this.device.name,
+                              message: "Заканчивается красный тонер"
+                          });
+                      }
+                      if (+this.device.result.yellow_toner[3] < 2) {
+                          this.addPopup({
+                              id: Date.now(),
+                              type: true,
+                              device: this.device.name,
+                              message: "Заканчивается красный тонер"
+                          });
+                      }
+                      if (+this.device.result.cyan_toner[3] < 2) {
+                          this.addPopup({
+                              id: Date.now(),
+                              type: true,
+                              device: this.device.name,
+                              message: "Заканчивается красный тонер"
+                          });
+                      }
+                  }
+              }else{
                   this.addPopup({
                       id: Date.now(),
-                      type: 'alert',
+                      type: false,
                       device: this.device.name,
-                      tray: this.device.tray_status === 1 ? "2" : this.device.tray_status === 2 ? "3" : "2 и 3"
+                      message: "Картридж заменён"
                   });
-                  console.log({
-                      id: Date.now(),
-                      type: 'alert',
-                      device: this.device.name,
-                      tray: this.device.tray_status === 1 ? "2" : this.device.tray_status === 2 ? "3" : "2 и 3"
-                  })
               }
-          }
+          },
         },
         methods: {
             ...mapActions(['fetchGraphs']),
@@ -180,10 +246,87 @@
                 }
 
             },
+            start_toner_alarm: function() {
+
+                    if (!this.device.type) {
+                        if (+this.device.result.black_toner[3] < 2) {
+                            this.addPopup({
+                                id: Date.now(),
+                                type: true,
+                                device: this.device.name,
+                                message: "Заканчивается чёрный тонер"
+                            });
+                        }
+                    } else {
+                        if (+this.device.result.black_toner[3] < 2) {
+                            this.addPopup({
+                                id: Date.now(),
+                                type: true,
+                                device: this.device.name,
+                                message: "Заканчивается чёрный тонер"
+                            });
+                        }
+                        if (+this.device.result.red_toner[3] < 2) {
+                            this.addPopup({
+                                id: Date.now(),
+                                type: true,
+                                device: this.device.name,
+                                message: "Заканчивается красный тонер"
+                            });
+                        }
+                        if (+this.device.result.yellow_toner[3] < 2) {
+                            this.addPopup({
+                                id: Date.now(),
+                                type: true,
+                                device: this.device.name,
+                                message: "Заканчивается желтый тонер"
+                            });
+                        }
+                        if (+this.device.result.cyan_toner[3] < 2) {
+                            this.addPopup({
+                                id: Date.now(),
+                                type: true,
+                                device: this.device.name,
+                                message: "Заканчивается синий тонер"
+                            });
+                        }
+                    }
+            },
+            start_paper: function() {
+                if (this.device.convenience) {
+                    if (this.device.tray_status === 1) {
+                        this.addPopup({
+                            id: Date.now(),
+                            type: true,
+                            device: this.device.name,
+                            message: "Заканчивается бумага в лотке № 2"
+                        });
+                    }
+                    if (this.device.tray_status === 2) {
+                        this.addPopup({
+                            id: Date.now(),
+                            type: true,
+                            device: this.device.name,
+                            message: "Заканчивается бумага в лотке № 3"
+                        });
+                    }
+                    if (this.device.tray_status === 3) {
+                        this.addPopup({
+                            id: Date.now(),
+                            type: true,
+                            device: this.device.name,
+                            message: "Заканчивается бумага в лотках № 2 и 3"
+                        });
+                    }
+                }
+            },
+
         },
         created() {
             this.attentions[0].opacity = this.toner_alarm;
             this.attentions[2].opacity = this.paper;
+            this.start_toner_alarm();
+            this.start_paper();
         },
         beforeUpdate() {
             this.attentions[0].opacity = this.toner_alarm;

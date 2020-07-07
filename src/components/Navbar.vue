@@ -5,6 +5,7 @@
             <a href="#"><img src='@/assets/icons/add_circle_outline-24px.svg'></a>
             <a href="#"><img src='@/assets/icons/note_add-24px.svg'></a>
             <hr>
+            <a href="#"><img src='@/assets/icons/dashboard-24px.svg'></a>
         </div>
     </div>
 </template>
@@ -35,6 +36,7 @@
         justify-content: space-around;
         align-items: center;
         height: 150px;
+        margin-top: 15px;
     }
     .navbar .btns a {
         width: 36px;

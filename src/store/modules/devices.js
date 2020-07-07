@@ -21,6 +21,10 @@ export default {
         addPopup(state, popup){
             state.popups.push(popup)
         },
+        delPopup(state, id){
+            console.log(id)
+            state.popups = state.popups.filter(elem=>elem.id != id)
+        },
     },
     state: {
         devices: [],
