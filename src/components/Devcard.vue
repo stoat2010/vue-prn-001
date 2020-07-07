@@ -2,7 +2,7 @@
     <div class="card" @mouseover="mouseOver" @mouseout="mouseOut">
         <div class="card-front">
             <div class="card-title">{{this.device.name}}</div>
-            <div class="card-subtitle">{{this.device.device}}</div>
+            <div class="card-subtitle"></div>
             <hr>
             <div class="card-body">
                 <template v-if="active">
@@ -495,5 +495,8 @@
         display: contents;
         margin: 0px;
         padding: 0px;
+    }
+    .disabled{
+        background-color: #cccccc;
     }
 </style>

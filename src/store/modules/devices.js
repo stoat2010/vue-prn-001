@@ -34,7 +34,7 @@ export default {
     },
     getters: {
         allDevices(state){
-            return state.devices.filter(elem => elem.inreport === true)
+            return state.devices.filter(elem=>elem.inreport === true)
         },
         devLength(state){
             return state.devices.length

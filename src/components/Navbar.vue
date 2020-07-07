@@ -6,6 +6,7 @@
             <a href="#"><img src='@/assets/icons/note_add-24px.svg'></a>
             <hr>
             <a href="#"><img src='@/assets/icons/dashboard-24px.svg'></a>
+            <a href="#"><img src='@/assets/icons/equalizer-24px.svg'></a>
         </div>
     </div>
 </template>
@@ -36,9 +37,10 @@
         justify-content: space-around;
         align-items: center;
         height: 150px;
-        margin-top: 15px;
+        margin-top: 50px;
     }
     .navbar .btns a {
+        margin-top: 10px;
         width: 36px;
         height: 36px;
         background-color:  rgb(49,51,53);
