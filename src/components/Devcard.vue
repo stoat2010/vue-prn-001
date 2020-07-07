@@ -130,9 +130,34 @@
                     }else{
                         return false
                     }
-            }
+            },
+            snmp_error: function() {
+                if (this.device.result.snmp_error) {
+                    return true
+
+                }else{
+                    return false
+                }
+            },
         },
         watch: {
+          snmp_error: function(newVal) {
+              if(!newVal){
+                  this.addPopup({
+                      id: Date.now(),
+                      type: true,
+                      device: this.device.name,
+                      message: "Ошибка SNMP опроса"
+                  });
+              }else{
+                  this.addPopup({
+                      id: Date.now(),
+                      type: false,
+                      device: this.device.name,
+                      message: "устройство опрошено"
+                  });
+              }
+          },
           paper: function(newVal) {
 
               if(newVal){
