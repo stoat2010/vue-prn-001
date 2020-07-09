@@ -1,5 +1,5 @@
 <template>
-    <li><a href="#"><div class="fa"><img :style="style" :src=this.svg></div></a></li>
+    <li><a href="#"><img :style="style" :src=this.svg></a></li>
 </template>
 
 <script>
@@ -26,18 +26,21 @@
         position: relative;
         width: 35px;
         height: 35px;
-        background: #f1f1f1;
-        display: block;
+        display: flex;
         text-align: center;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
         margin: 0 10px;
         border-radius: 50%;
         padding: 6px;
         box-sizing: border-box;
         text-decoration: none;
         box-shadow: 0 10px 15px rgba(0,0,0,0.3);
-        background: linear-gradient(0deg, #ddd, #fff);
         transition: 1s;
         pointer-events: all;
+        background-color: white;
+        border: 1px solid #cccccc;
     }
     li a:active {
         box-shadow: 0 2px 5px rgba(0,0,0,0.3);
@@ -53,18 +56,18 @@
         align-items: center;
         background: linear-gradient(0deg, #fff, #ddd);
     }
-    li a .fa img {
+    li a img {
         width: 24px;
         height: 24px;
         display: block;
         opacity: 1;
     }
-    li a .fa svg {
+    li a svg {
         width: 24px;
         height: 24px;
         display: block;
     }
-    li a .fa img .enable {
+    li a img .enable {
         opacity: 0.1
     }
 </style>

@@ -21,7 +21,7 @@
                             //backgroundColor: 'rgba(187, 222, 251, 1)',
                             backgroundColor: 'rgba(0, 0, 0, 0.5)',
                             //data: [1103, 987, 1054, 1098, 874,654]
-                            data: this.values,
+                            data: [...this.values],
                         }
                     ],
                     labels: [1,2,3,4,5,6,7,8,9,10,11,12]

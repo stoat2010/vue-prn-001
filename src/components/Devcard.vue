@@ -2,7 +2,7 @@
     <div class="card" @mouseover="mouseOver" @mouseout="mouseOut">
         <div class="card-front">
             <div class="card-title">{{this.device.name}}</div>
-            <div class="card-subtitle"></div>
+            <div class="card-subtitle">{{this.device.device}}</div>
             <hr>
             <div class="card-body">
                 <template v-if="active">
@@ -36,7 +36,11 @@
         <template v-if="active">
             <div class="details">
                 <div class="graph">
-                    <h2>Отпечатано в 2020</h2>
+                    <div class="title">
+                        <a href="" v-on:click.prevent="delYear">-</a>
+                        <h2>Отпечатано в {{this.year}}</h2>
+                        <a href="" v-on:click.prevent="addYear">+</a>
+                    </div>
                     <Chart :width="380" :height="200" v-bind:values='this.devGraphs'></Chart>
                 </div>
                 <div class="attbar">
@@ -75,6 +79,7 @@
         data() {
             return {
                 active: false,
+                year: new Date().getFullYear(),
                 attentions: [
                     {id: 0, svg: Toner, opacity: this.toner_alarm},
                     {id: 1, svg: Flag, opacity: this.device.result.snmp_error},
@@ -142,7 +147,7 @@
         },
         watch: {
           snmp_error: function(newVal) {
-              if(!newVal){
+              if(newVal){
                   this.addPopup({
                       id: Date.now(),
                       type: true,
@@ -249,7 +254,7 @@
                 clearTimeout(this.myVar);
                 this.myVar = setTimeout(() => {
                     this.active = true;
-                    this.fetchGraphs(this.device.name, new Date().getFullYear())
+                    this.fetchGraphs([this.device.name, this.year])
                 }, 500)
             },
             mouseOut: function () {
@@ -345,7 +350,12 @@
                     }
                 }
             },
-
+            addYear: function() {
+                this.year = this.year + 1
+            },
+            delYear: function() {
+                this.year = this.year - 1
+            },
         },
         created() {
             this.attentions[0].opacity = this.toner_alarm;
@@ -498,6 +508,14 @@
         justify-content: space-between;
     }
 
+    .card .details .title {
+        display: flex;
+        justify-content: space-around;
+        vertical-align: middle;
+        align-content: center;
+        align-items: center;
+    }
+
     .card:hover .details {
         position: absolute;
         top: 0;
@@ -507,6 +525,26 @@
         z-index: 1;
         color: #000;
         transition: 2s;
+    }
+    .card:hover .details a {
+        position: relative;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        text-align: center;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+        margin: 0 2px;
+        border-radius: 50%;
+        padding: 6px;
+        box-sizing: border-box;
+        text-decoration: none;
+        box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+        transition: 1s;
+        pointer-events: all;
+        background-color: white;
+        border: 1px solid #cccccc;
     }
     .graph {
         width: 100%;

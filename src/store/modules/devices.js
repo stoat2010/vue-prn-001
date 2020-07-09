@@ -5,8 +5,8 @@ export default {
             const devices = await res.json()
             ctx.commit('updateDevs', devices)
         },
-        async fetchGraphs(ctx, device, year) {
-            const res = await fetch('http://172.25.0.22:3333/api/datagraph/' + device + '/2020/')
+        async fetchGraphs(ctx, device) {
+            const res = await fetch('http://172.25.0.22:3333/api/datagraph/' + device[0] + '/'+ device[1] +'/')
             const graphs = await res.json()
             ctx.commit('getGraphs', graphs)
         }

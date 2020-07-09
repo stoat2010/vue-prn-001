@@ -1,7 +1,7 @@
 <template>
     <div class="navbar">
         <div class="btns">
-            <a href="#"><img src='@/assets/icons/refresh-24px.svg'></a>
+            <a href="#" :click="fetchDevices()"><img src='@/assets/icons/refresh-24px.svg'></a>
             <a href="#"><img src='@/assets/icons/add_circle_outline-24px.svg'></a>
             <a href="#"><img src='@/assets/icons/note_add-24px.svg'></a>
             <hr>
@@ -13,8 +13,11 @@
 
 <script>
 
+    import {mapActions} from 'vuex';
+
     export default {
-        name: "Navbar"
+        name: "Navbar",
+        methods: mapActions(['fetchDevices'])
     }
 </script>
 

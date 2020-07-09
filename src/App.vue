@@ -108,7 +108,7 @@ export default {
   }
   .popups {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     justify-content: flex-start;
     align-content: flex-start;
     position: fixed;

@@ -4,7 +4,7 @@
 
             <h4>Устройство: {{this.popup.device}}</h4>
             <p>{{this.popup.message}}</p>
-            <div class="btn"><a href="#" v-on:click="delPopup(popup.id)" v-bind:class='{error: this.popup.type}'>ОК</a></div>
+            <div class="btn">{{localDate}}<a href="#" v-on:click.prevent="delPopup(popup.id)" v-bind:class='{error: this.popup.type}'>ОК</a></div>
         </div>
     </div>
 </template>
@@ -16,7 +16,15 @@
     export default {
         name: "Popup",
         props: ["popup"],
-        methods: mapMutations(['delPopup']),
+        computed: {
+            localDate: function() {
+                return new Date().toLocaleTimeString()
+            }
+        },
+        methods: {
+            ...mapMutations(['delPopup']),
+
+        },
     }
 </script>
 
@@ -54,10 +62,12 @@
         border: 1px solid rgb(38,209,152);
     }
     .popup .btn {
+        margin-left: 10px;
         width: 370px;
         display: flex;
         flex-direction: row;
-        justify-content: flex-end;
+        justify-content: space-between;
+
     }
     .popup h4 {
         margin: 2px;
@@ -67,7 +77,7 @@
         margin: 2px;
         padding: 0;
     }
-    .popup .btn a{
+    a{
         width: 64px;
         height: 24px;
         background: white;
@@ -81,6 +91,8 @@
         text-decoration: none;
         pointer-events: all;
         box-shadow: 5px 5px 2px #dddddd;
+        border: 1px solid rgb(38,209,152);
+        color: rgb(38,209,152);
     }
 
     .popup .btn a:active{
