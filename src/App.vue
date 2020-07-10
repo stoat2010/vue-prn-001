@@ -115,7 +115,6 @@ export default {
     top: 10px;
     left: 60px;
     width: 390px;
-    height:100%;
     background-color: white;
   }
 </style>

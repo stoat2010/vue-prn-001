@@ -36,7 +36,7 @@
         padding: 6px;
         box-sizing: border-box;
         text-decoration: none;
-        box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+        box-shadow: 0 5px 10px rgba(0,0,0,0.3);
         transition: 1s;
         pointer-events: all;
         background-color: white;

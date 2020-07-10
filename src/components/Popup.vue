@@ -3,8 +3,9 @@
         <div class="popup" v-bind:class='{error: this.popup.type}'>
 
             <h4>Устройство: {{this.popup.device}}</h4>
+
             <p>{{this.popup.message}}</p>
-            <div class="btn">{{localDate}}<a href="#" v-on:click.prevent="delPopup(popup.id)" v-bind:class='{error: this.popup.type}'>ОК</a></div>
+            <div class="btn"><p>{{localDate}}</p><p>{{this.popup.location}}</p><a href="#" v-on:click.prevent="delPopup(popup.id)" v-bind:class='{error: this.popup.type}'>ОК</a></div>
         </div>
     </div>
 </template>
@@ -77,6 +78,10 @@
         margin: 2px;
         padding: 0;
     }
+    .popup .btn p {
+        font-size: 0.8rem;
+        margin-top: 5px;
+    }
     a{
         width: 64px;
         height: 24px;
@@ -93,6 +98,7 @@
         box-shadow: 5px 5px 2px #dddddd;
         border: 1px solid rgb(38,209,152);
         color: rgb(38,209,152);
+        letter-spacing: 0.05rem;
     }
 
     .popup .btn a:active{

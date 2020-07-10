@@ -82,7 +82,7 @@
                 year: new Date().getFullYear(),
                 attentions: [
                     {id: 0, svg: Toner, opacity: this.toner_alarm},
-                    {id: 1, svg: Flag, opacity: this.device.result.snmp_error},
+                    {id: 1, svg: Flag, opacity: this.snmp_error},
                     {id: 2, svg: Paper, opacity: this.paper},
                 ],
                 buttons: [
@@ -144,6 +144,13 @@
                     return false
                 }
             },
+            device_off: function() {
+                if(this.device.status){
+                    return true
+                }else{
+                    return false
+                }
+            }
         },
         watch: {
           snmp_error: function(newVal) {
@@ -152,6 +159,7 @@
                       id: Date.now(),
                       type: true,
                       device: this.device.name,
+                      location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
                       message: "Ошибка SNMP опроса"
                   });
               }else{
@@ -159,6 +167,7 @@
                       id: Date.now(),
                       type: false,
                       device: this.device.name,
+                      location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
                       message: "устройство опрошено"
                   });
               }
@@ -171,6 +180,7 @@
                           id: Date.now(),
                           type: true,
                           device: this.device.name,
+                          location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
                           message: "Заканчивается бумага в лотке № 2"
                       });
                   }
@@ -179,6 +189,7 @@
                           id: Date.now(),
                           type: true,
                           device: this.device.name,
+                          location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
                           message: "Заканчивается бумага в лотке № 3"
                       });
                   }
@@ -187,6 +198,7 @@
                           id: Date.now(),
                           type: true,
                           device: this.device.name,
+                          location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
                           message: "Заканчивается бумага в лотках № 2 и 3"
                       });
                   }
@@ -200,6 +212,7 @@
                               id: Date.now(),
                               type: true,
                               device: this.device.name,
+                              location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
                               message: "Заканчивается чёрный тонер"
                           });
                       }
@@ -209,6 +222,7 @@
                               id: Date.now(),
                               type: true,
                               device: this.device.name,
+                              location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
                               message: "Заканчивается чёрный тонер"
                           });
                       }
@@ -217,6 +231,7 @@
                               id: Date.now(),
                               type: true,
                               device: this.device.name,
+                              location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
                               message: "Заканчивается красный тонер"
                           });
                       }
@@ -225,6 +240,7 @@
                               id: Date.now(),
                               type: true,
                               device: this.device.name,
+                              location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
                               message: "Заканчивается красный тонер"
                           });
                       }
@@ -233,6 +249,7 @@
                               id: Date.now(),
                               type: true,
                               device: this.device.name,
+                              location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
                               message: "Заканчивается красный тонер"
                           });
                       }
@@ -242,10 +259,30 @@
                       id: Date.now(),
                       type: false,
                       device: this.device.name,
+                      location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
                       message: "Картридж заменён"
                   });
               }
           },
+            device_off: function(newVal) {
+                if(newVal){
+                    this.addPopup({
+                        id: Date.now(),
+                        type: false,
+                        device: this.device.name,
+                        location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
+                        message: "Устройство доступно"
+                    });
+                }else{
+                    this.addPopup({
+                        id: Date.now(),
+                        type: true,
+                        device: this.device.name,
+                        location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
+                        message: "Устройство недоступно"
+                    });
+                }
+            },
         },
         methods: {
             ...mapActions(['fetchGraphs']),
@@ -284,6 +321,7 @@
                                 id: Date.now(),
                                 type: true,
                                 device: this.device.name,
+                                location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
                                 message: "Заканчивается чёрный тонер"
                             });
                         }
@@ -293,6 +331,7 @@
                                 id: Date.now(),
                                 type: true,
                                 device: this.device.name,
+                                location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
                                 message: "Заканчивается чёрный тонер"
                             });
                         }
@@ -301,6 +340,7 @@
                                 id: Date.now(),
                                 type: true,
                                 device: this.device.name,
+                                location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
                                 message: "Заканчивается красный тонер"
                             });
                         }
@@ -309,6 +349,7 @@
                                 id: Date.now(),
                                 type: true,
                                 device: this.device.name,
+                                location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
                                 message: "Заканчивается желтый тонер"
                             });
                         }
@@ -317,6 +358,7 @@
                                 id: Date.now(),
                                 type: true,
                                 device: this.device.name,
+                                location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
                                 message: "Заканчивается синий тонер"
                             });
                         }
@@ -329,6 +371,7 @@
                             id: Date.now(),
                             type: true,
                             device: this.device.name,
+                            location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
                             message: "Заканчивается бумага в лотке № 2"
                         });
                     }
@@ -337,6 +380,7 @@
                             id: Date.now(),
                             type: true,
                             device: this.device.name,
+                            location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
                             message: "Заканчивается бумага в лотке № 3"
                         });
                     }
@@ -345,9 +389,29 @@
                             id: Date.now(),
                             type: true,
                             device: this.device.name,
+                            location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
                             message: "Заканчивается бумага в лотках № 2 и 3"
                         });
                     }
+                }
+            },
+            device_off: function(l) {
+                if(this.device.statusl){
+                    this.addPopup({
+                        id: Date.now(),
+                        type: false,
+                        device: this.device.name,
+                        location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
+                        message: "Устройство доступно"
+                    });
+                }else{
+                    this.addPopup({
+                        id: Date.now(),
+                        type: true,
+                        device: this.device.name,
+                        location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
+                        message: "Устройство недоступно"
+                    });
                 }
             },
             addYear: function() {
@@ -419,6 +483,7 @@
         margin-top: 10px;
         margin-left: 20px;
         text-align: left;
+        letter-spacing: 0.05rem;
     }
 
     .card .card-front .card-subtitle {
@@ -464,6 +529,7 @@
         transform: rotateY(-180deg);
         transition: 1s;
         margin-right: 20px;
+
     }
 
     .card:hover .card-front .card-subtitle {
@@ -540,7 +606,7 @@
         padding: 6px;
         box-sizing: border-box;
         text-decoration: none;
-        box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+        box-shadow: 0 5px 10px rgba(0,0,0,0.3);
         transition: 1s;
         pointer-events: all;
         background-color: white;

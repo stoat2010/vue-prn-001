@@ -7,6 +7,9 @@
             <hr>
             <a href="#"><img src='@/assets/icons/dashboard-24px.svg'></a>
             <a href="#"><img src='@/assets/icons/equalizer-24px.svg'></a>
+            <hr>
+            <a href="#"><img src='@/assets/icons/settings-24px.svg'></a>
+
         </div>
     </div>
 </template>
@@ -37,10 +40,10 @@
     .navbar .btns {
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
+        justify-content: start;
         align-items: center;
         height: 150px;
-        margin-top: 50px;
+
     }
     .navbar .btns a {
         margin-top: 10px;
