@@ -2,18 +2,21 @@
   <div id="app">
     <template v-if="devLength>0">
       <Navbar></Navbar>
-      <div class="popups">
+      <div class="popups" v-bind:class='{blur: getBlur}'>
         <template v-for="popup in this.getPopups">
           <Popup v-bind:popup="popup"></Popup>
         </template>
       </div>
-      <div class="container">
+      <div class="container" v-bind:class='{blur: getBlur}'>
         <devcard v-for="device in this.allDevices" :key="device._id" v-bind:device="device"></devcard>
       </div>
+      <template v-if="getBlur">
+        <Addfrm></Addfrm>
+      </template>
     </template>
-  <template v-else>
-    <Error></Error>
-  </template>
+    <template v-else>
+      <Error></Error>
+    </template>
   </div>
 </template>
 
@@ -23,8 +26,9 @@ import Devcard from "./components/Devcard";
 import Error from "./components/Error";
 import Navbar from './components/Navbar';
 import Popup from './components/Popup';
+import Addfrm from './components/Addfrm';
 
-import {mapGetters, mapActions} from 'vuex'
+import {mapGetters, mapActions, mapMutations} from 'vuex'
 
 
 export default {
@@ -34,21 +38,26 @@ export default {
     Devcard,
     Error,
     Navbar,
+    Addfrm,
   },
-  computed: mapGetters(['allDevices', 'devLength', 'getPopups']),
+  computed: {
+    ...mapGetters(['allDevices', 'devLength', 'getPopups', 'getBlur']),
+  },
   methods: {
     ...mapActions(['fetchDevices']),
+    ...mapMutations(['addPopup']),
     stopTimer () {
       if (this.interval) {
         window.clearInterval(this.interval)
       }
     },
     startTimer () {
+      console.log(this.devices)
       this.stopTimer()
       this.interval = window.setInterval(() => {
         this.fetchDevices()
       }, 300000)
-    }
+    },
   },
   mounted() {
     this.fetchDevices();
@@ -116,5 +125,10 @@ export default {
     left: 60px;
     width: 390px;
     background-color: white;
+  }
+  .blur {
+    filter: blur(5px);
+    pointer-events: none;
+    user-select: none;
   }
 </style>

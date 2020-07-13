@@ -25,12 +25,17 @@ export default {
             console.log(id)
             state.popups = state.popups.filter(elem=>elem.id != id)
         },
+        toggleBlur(state, blur){
+            state.blur = !blur
+            console.log(state.blur)
+        }
     },
     state: {
         devices: [],
         length: 0,
         graphs: {},
         popups: [],
+        blur: false,
     },
     getters: {
         allDevices(state){
@@ -44,6 +49,9 @@ export default {
         },
         getPopups(state) {
             return state.popups
+        },
+        getBlur(state) {
+            return state.blur
         }
     },
 }
