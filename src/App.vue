@@ -127,7 +127,7 @@ export default {
     background-color: white;
   }
   .blur {
-    filter: blur(5px);
+    filter: blur(2px);
     pointer-events: none;
     user-select: none;
   }

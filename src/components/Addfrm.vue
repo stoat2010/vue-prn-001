@@ -10,11 +10,21 @@
                     <select name="slct" id="slct">
                         <option selected disabled>Шаблон опроса устройства</option>
                         <option v-for="template in this.allTemplates" value="template.name[0]">{{template.text}}</option>
-
                     </select>
                 </div>
+                <div class="select">
+                    <select name="type" id="type">
+                        <option selected value="false">Монохромный</option>
+                        <option value="true">Цветной</option>
+                    </select>
+                </div>
+                <div class="btns">
+                    <a href="#" id="submit" v-on:click.prevent="toggleBlur(getBlur)">ДОБАВИТЬ</a>
+                    <a href="#" id="clear" v-on:click.prevent="toggleBlur(getBlur)">ОЧИСТИТЬ</a>
+                    <a href="#" id="close" v-on:click.prevent="toggleBlur(getBlur)">ЗАКРЫТЬ</a>
+                </div>
             </div>
-            <a href="#" v-on:click.prevent="toggleBlur(getBlur)">close</a>
+
         </div>
     </div>
 </template>
@@ -40,7 +50,7 @@
 <style scoped>
     .back {
         width: 600px;
-        height: 300px;
+        height: 450px;
         background-color: rgb(49,51,53);
         color: white;
         position: fixed;
@@ -53,7 +63,7 @@
     }
     .back .front {
         width: 580px;
-        height: 280px;
+        height: 430px;
         position: fixed;
         top: 6px;
         left: 6px;
@@ -66,15 +76,36 @@
         border-radius: 10px;
         border: 4px solid #cccccc;
     }
+    .back .front .btns {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 80%;
+        flex-direction: row;
+        margin-top: 40px;
+    }
+    #submit {
+        background-color: rgb(50,251,107);
+        color: #2c3e50;
+    }
+    #clear {
+        background-color: rgb(239,176,44);
+        color: white;
+    }
+    #close {
+        background-color: rgb(187,29,21);
+        color: white;
+    }
     .back .front a {
         position: relative;
-        padding: 5px 20px;
+        padding: 10px 20px;
         display: inline-block;
         margin-top: 20px;
         text-decoration: none;
-        background-color: #eeeeee;
+        background-color: rgb(242,242,242);
         color: black;
         border-radius: 5px;
+        font-size: 0.7rem;
     }
     .form {
         display: flex;

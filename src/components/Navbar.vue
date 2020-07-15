@@ -7,6 +7,7 @@
             <hr>
             <a href="#"><img src='@/assets/icons/dashboard-24px.svg'></a>
             <a href="#"><img src='@/assets/icons/equalizer-24px.svg'></a>
+            <a href="#"><img src='@/assets/icons/filter_alt-24px.svg'></a>
             <hr>
             <a href="#"><img src='@/assets/icons/settings-24px.svg'></a>
 

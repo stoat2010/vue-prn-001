@@ -1,6 +1,6 @@
 <template>
     <div class="card" @mouseover="mouseOver" @mouseout="mouseOut">
-        <div class="card-front">
+        <div class="card-front" v-bind:class='{disabled: this.device_off, enabled: !this.device_off}'>
             <div class="card-title">{{this.device.name}}</div>
             <div class="card-subtitle">{{this.device.device}}</div>
             <hr>
@@ -21,7 +21,7 @@
                     <span>цех/отдел: {{this.device.unit}}</span>
                     <span>корпус: {{this.device.build}} кабинет: {{this.device.office}}</span>
                     <span>принято {{this.start_date}}</span>
-                    <span class="line"><span class="inline">отпечатков с начала месяца: {{printouts}}</span><span class="inline" v-if="this.device.type">, цветных: {{color_printouts}}, ч/б: {{bw_printouts}}</span></span>
+                    <span class="line"><span class="inline">отпечатков с начала месяца: <b>{{printouts}}</b></span><span class="inline" v-if="this.device.type">, цветных: <b>{{color_printouts}}</b>, ч/б: <b>{{bw_printouts}}</b></span></span>
                     <br>
                     <span>Модель: {{this.device.model}}</span>
                     <span>Производитель: {{this.device.vendor}}</span>
@@ -145,11 +145,12 @@
                 }
             },
             device_off: function() {
-                if(this.device.status){
-                    return true
-                }else{
-                    return false
-                }
+
+                    if (this.device.status) {
+                        return false
+                    } else {
+                        return true
+                    }
             }
         },
         watch: {
@@ -265,22 +266,24 @@
               }
           },
             device_off: function(newVal) {
-                if(newVal){
-                    this.addPopup({
-                        id: Date.now(),
-                        type: false,
-                        device: this.device.name,
-                        location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
-                        message: "Устройство доступно"
-                    });
-                }else{
-                    this.addPopup({
-                        id: Date.now(),
-                        type: true,
-                        device: this.device.name,
-                        location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
-                        message: "Устройство недоступно"
-                    });
+                if (this.device.convenience) {
+                    if (newVal) {
+                        this.addPopup({
+                            id: Date.now(),
+                            type: false,
+                            device: this.device.name,
+                            location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
+                            message: "Устройство доступно"
+                        });
+                    } else {
+                        this.addPopup({
+                            id: Date.now(),
+                            type: true,
+                            device: this.device.name,
+                            location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
+                            message: "Устройство недоступно"
+                        });
+                    }
                 }
             },
         },
@@ -423,12 +426,14 @@
         },
         created() {
             this.attentions[0].opacity = this.toner_alarm;
+            this.attentions[1].opacity = this.snmp_error;
             this.attentions[2].opacity = this.paper;
             this.start_toner_alarm();
             this.start_paper();
         },
         beforeUpdate() {
             this.attentions[0].opacity = this.toner_alarm;
+            this.attentions[1].opacity = this.snmp_error;
             this.attentions[2].opacity = this.paper;
         }
     }
@@ -441,12 +446,12 @@
         margin: 20px 0;
         width: 420px;
         height: 350px;
-        background: #fff;
         transform-style: preserve-3d;
         transform: perspective(2000px);
         transition: 1s;
         box-shadow: inset 300px 0 50px rgba(0, 0, 0, 0.5);
         border-radius: 0 5px 5px 0;
+        background: #fff;
     }
 
     .card:hover {
@@ -461,7 +466,7 @@
         transform-origin: left;
         z-index: 2;
         transition: 1s;
-        background: #fff;
+
         opacity: 1;
         border-radius: 0 5px 5px 0;
     }
@@ -627,5 +632,8 @@
     }
     .disabled{
         background-color: #cccccc;
+    }
+    .enabled{
+        background-color: #ffffff;
     }
 </style>
