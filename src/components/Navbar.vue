@@ -5,7 +5,7 @@
             <a href="#" v-on:click.prevent="toggleBlur(getBlur)"><img src='@/assets/icons/add_circle_outline-24px.svg'></a>
             <a href="#"><img src='@/assets/icons/note_add-24px.svg'></a>
             <hr>
-            <a href="#"><img src='@/assets/icons/dashboard-24px.svg'></a>
+            <a href="#" v-on:click.prevent="toggleDash(getDash)"><img src='@/assets/icons/dashboard-24px.svg'></a>
             <a href="#"><img src='@/assets/icons/equalizer-24px.svg'></a>
             <a href="#"><img src='@/assets/icons/filter_alt-24px.svg'></a>
             <hr>
@@ -26,9 +26,9 @@
         },
         methods: {
             ...mapActions(['fetchDevices']),
-            ...mapMutations(['toggleBlur'])
+            ...mapMutations(['toggleBlur', "toggleDash"])
         },
-        computed: mapGetters(['getBlur']),
+        computed: mapGetters(['getBlur', "getDash"]),
     }
 </script>
 

@@ -10,8 +10,11 @@
       <div class="container" v-bind:class='{blur: getBlur}'>
         <devcard v-for="device in this.allDevices" :key="device._id" v-bind:device="device"></devcard>
       </div>
-      <template v-if="getBlur">
+      <template v-if="getAdd">
         <Addfrm></Addfrm>
+      </template>
+      <template v-if="getDash">
+        <Dashboard></Dashboard>
       </template>
     </template>
     <template v-else>
@@ -27,6 +30,7 @@ import Error from "./components/Error";
 import Navbar from './components/Navbar';
 import Popup from './components/Popup';
 import Addfrm from './components/Addfrm';
+import Dashboard from './components/Dashboard';
 
 import {mapGetters, mapActions, mapMutations} from 'vuex'
 
@@ -39,9 +43,10 @@ export default {
     Error,
     Navbar,
     Addfrm,
+    Dashboard,
   },
   computed: {
-    ...mapGetters(['allDevices', 'devLength', 'getPopups', 'getBlur']),
+    ...mapGetters(['allDevices', 'devLength', 'getPopups', 'getBlur', 'getAdd', 'getDash']),
   },
   methods: {
     ...mapActions(['fetchDevices']),

@@ -27,6 +27,14 @@ export default {
         },
         toggleBlur(state, blur){
             state.blur = !blur
+            state.showAdd =!state.showAdd
+            state.showDash = false
+            console.log(state.blur)
+        },
+        toggleDash(state, blur){
+            state.blur = !blur
+            state.showAdd = false
+            state.showDash = !state.showDash
             console.log(state.blur)
         }
     },
@@ -36,6 +44,8 @@ export default {
         graphs: {},
         popups: [],
         blur: false,
+        showAdd: false,
+        showDash: false,
     },
     getters: {
         allDevices(state){
@@ -52,6 +62,19 @@ export default {
         },
         getBlur(state) {
             return state.blur
+        },
+        getAdd(state) {
+            return state.showAdd
+        },
+        getDash(state) {
+            return state.showDash
+        },
+        allPrintouts(state) {
+            let allPrns = 0
+            state.devices.filter(elem=>elem.inreport === true).map(elem=>
+                allPrns = allPrns + elem.result.printouts - elem.result.start_printouts
+            )
+            return allPrns
         }
     },
 }
