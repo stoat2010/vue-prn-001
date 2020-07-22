@@ -1,9 +1,10 @@
 <template>
     <div class="back">
         <div class="front">
-                <h2>Сводая панель</h2>
-                <p>Всего устройств в базе: {{devLength}}</p>
-                <p>Всего отпечатков с начала месяца: {{allPrintouts}}</p>
+            <a href="#" id="close" v-on:click.prevent="toggleDash(getDash)"><img src='@/assets/icons/add_circle_outline-24px.svg'></a>
+            <h2>Сводная панель</h2>
+            <p>Всего устройств в базе: {{devLength}}</p>
+            <p>Всего отпечатков с начала месяца: {{allPrintouts}}</p>
 
         </div>
     </div>
@@ -15,10 +16,10 @@
     export default {
         name: "Dashboard",
         computed: {
-            ...mapGetters(['allTemplates', 'getBlur', 'allPrintouts', 'devLength']),
+            ...mapGetters(['allTemplates', 'getDash', 'allPrintouts', 'devLength']),
         },
         methods: {
-            ...mapMutations(['toggleBlur']),
+            ...mapMutations(['toggleDash']),
             ...mapActions(['fetchTemplates'])
         },
     }
@@ -66,10 +67,16 @@
         color: white;
     }
     #close {
-        background-color: rgb(187,29,21);
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        text-decoration: none;
+        border-radius: 50%;
+        font-size: 0.7rem;
+        transform: rotate(45deg);
         color: white;
     }
-    .back .front a {
+/*    .back .front a {
         position: relative;
         padding: 10px 20px;
         display: inline-block;
@@ -79,5 +86,5 @@
         color: black;
         border-radius: 5px;
         font-size: 0.7rem;
-    }
+    }*/
 </style>

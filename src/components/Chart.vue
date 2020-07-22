@@ -12,6 +12,16 @@
                 deep : true
             },
         },
+        computed: {
+            gradient() {
+                let grad = this.$refs.canvas.getContext('2d').createLinearGradient(0, 0, 0, 400);
+                grad.addColorStop(0, '#cccccc');
+                grad.addColorStop(1, '#000000');
+                //grad.addColorStop(0, 'rgb(216,77,110)');
+                //grad.addColorStop(1, 'rgb(38,209,152)');
+                return grad
+            }
+        },
         methods: {
             render() {
                 this.renderChart({
@@ -19,7 +29,8 @@
                         {
                             borderColor: 'rgb(0, 0, 0)',
                             //backgroundColor: 'rgba(187, 222, 251, 1)',
-                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            //backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            backgroundColor: this.gradient,
                             //data: [1103, 987, 1054, 1098, 874,654]
                             data: this.values,
                         }
@@ -47,6 +58,7 @@
             }
         },
         mounted() {
+
             this.render()
         }
     })

@@ -53,9 +53,10 @@
 
 <script>
 
-    const Toner = require('@/assets/icons/move_to_inbox-24px.svg')
+    const Toner = require('@/assets/icons/opacity-24px.svg')
     const Paper = require('@/assets/icons/save_alt-24px.svg')
     const Flag = require('@/assets/icons/flag-24px.svg')
+    const Avail = require('@/assets/icons/hourglass_full-24px.svg')
     const Edit = require('@/assets/icons/create-24px.svg')
     const Camera = require('@/assets/icons/camera_alt-24px.svg')
     const Report = require('@/assets/icons/insert_chart_outlined-24px.svg')
@@ -81,16 +82,17 @@
                 active: false,
                 year: new Date().getFullYear(),
                 attentions: [
-                    {id: 0, svg: Toner, opacity: this.toner_alarm},
-                    {id: 1, svg: Flag, opacity: this.snmp_error},
-                    {id: 2, svg: Paper, opacity: this.paper},
+                    {id: 0, svg: Toner, opacity: this.toner_alarm, img: true},
+                    {id: 1, svg: Flag, opacity: this.snmp_error, img: true},
+                    {id: 2, svg: Paper, opacity: this.paper, img: true},
+                    {id: 3, svg: this.activity_date, opacity: 1, img: false},
                 ],
                 buttons: [
-                    {id: 0, svg: Edit, opacity: 0.1},
-                    {id: 1, svg: Camera, opacity: 0.1},
-                    {id: 2, svg: Report, opacity:this.changeOpacity("inreport")},
-                    {id: 3, svg: Timer, opacity: this.changeOpacity("convenience")},
-                    {id: 4, svg: Trash, opacity: 1, fill: "black"},
+                    {id: 0, svg: Edit, opacity: 0.1, img: true},
+                    {id: 1, svg: Camera, opacity: 0.1, img: true},
+                    {id: 2, svg: Report, opacity:this.changeOpacity("inreport"), img: true},
+                    {id: 3, svg: Timer, opacity: this.changeOpacity("convenience"), img: true},
+                    {id: 4, svg: Trash, opacity: 1, fill: "black", img: true},
                 ],
                 myVar: undefined,
 
@@ -110,18 +112,30 @@
             start_date() {
                 return new Date(this.device.start_date).toLocaleDateString();
             },
+            activity_date() {
+                let date1 = new Date(this.device.result.activity_date).getTime();
+                let date2 = Date.now();
+                let days =  Math.ceil(Math.abs(date2 - date1) / (1000 * 3600 * 24)) - 1
+                if(days>0) {
+                    return days
+                }else{
+                    return null
+                }
+            },
             toner_alarm: function() {
-                if (!this.device.type) {
-                    if (+this.device.result.black_toner[3] < 5) {
-                        return true
+                if (this.device.inreport) {
+                    if (!this.device.type) {
+                        if (+this.device.result.black_toner[3] < 5) {
+                            return true
+                        } else {
+                            return false
+                        }
                     } else {
-                        return false
-                    }
-                } else {
-                    if (+this.device.result.black_toner[3] < 5 || +this.device.result.red_toner[3] < 5 || +this.device.result.cyan_toner[3] < 5 || +this.device.result.yellow_toner[3] < 5) {
-                        return true
-                    } else {
-                        return false
+                        if (+this.device.result.black_toner[3] < 5 || +this.device.result.red_toner[3] < 5 || +this.device.result.cyan_toner[3] < 5 || +this.device.result.yellow_toner[3] < 5) {
+                            return true
+                        } else {
+                            return false
+                        }
                     }
                 }
             },
@@ -206,63 +220,65 @@
               }
           },
           toner_alarm: function(newVal) {
-              if(newVal) {
-                  if (!this.device.type) {
-                      if (+this.device.result.black_toner[3] < 2) {
-                          this.addPopup({
-                              id: Date.now(),
-                              type: true,
-                              device: this.device.name,
-                              location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
-                              message: "Заканчивается чёрный тонер"
-                          });
+              if(this.device.inreport) {
+                  if (newVal) {
+                      if (!this.device.type) {
+                          if (+this.device.result.black_toner[3] < 2) {
+                              this.addPopup({
+                                  id: Date.now(),
+                                  type: true,
+                                  device: this.device.name,
+                                  location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
+                                  message: "Заканчивается чёрный тонер"
+                              });
+                          }
+                      } else {
+                          if (+this.device.result.black_toner[3] < 2) {
+                              this.addPopup({
+                                  id: Date.now(),
+                                  type: true,
+                                  device: this.device.name,
+                                  location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
+                                  message: "Заканчивается чёрный тонер"
+                              });
+                          }
+                          if (+this.device.result.red_toner[3] < 2) {
+                              this.addPopup({
+                                  id: Date.now(),
+                                  type: true,
+                                  device: this.device.name,
+                                  location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
+                                  message: "Заканчивается красный тонер"
+                              });
+                          }
+                          if (+this.device.result.yellow_toner[3] < 2) {
+                              this.addPopup({
+                                  id: Date.now(),
+                                  type: true,
+                                  device: this.device.name,
+                                  location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
+                                  message: "Заканчивается красный тонер"
+                              });
+                          }
+                          if (+this.device.result.cyan_toner[3] < 2) {
+                              this.addPopup({
+                                  id: Date.now(),
+                                  type: true,
+                                  device: this.device.name,
+                                  location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
+                                  message: "Заканчивается красный тонер"
+                              });
+                          }
                       }
                   } else {
-                      if (+this.device.result.black_toner[3] < 2) {
-                          this.addPopup({
-                              id: Date.now(),
-                              type: true,
-                              device: this.device.name,
-                              location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
-                              message: "Заканчивается чёрный тонер"
-                          });
-                      }
-                      if (+this.device.result.red_toner[3] < 2) {
-                          this.addPopup({
-                              id: Date.now(),
-                              type: true,
-                              device: this.device.name,
-                              location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
-                              message: "Заканчивается красный тонер"
-                          });
-                      }
-                      if (+this.device.result.yellow_toner[3] < 2) {
-                          this.addPopup({
-                              id: Date.now(),
-                              type: true,
-                              device: this.device.name,
-                              location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
-                              message: "Заканчивается красный тонер"
-                          });
-                      }
-                      if (+this.device.result.cyan_toner[3] < 2) {
-                          this.addPopup({
-                              id: Date.now(),
-                              type: true,
-                              device: this.device.name,
-                              location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
-                              message: "Заканчивается красный тонер"
-                          });
-                      }
+                      this.addPopup({
+                          id: Date.now(),
+                          type: false,
+                          device: this.device.name,
+                          location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
+                          message: "Картридж заменён"
+                      });
                   }
-              }else{
-                  this.addPopup({
-                      id: Date.now(),
-                      type: false,
-                      device: this.device.name,
-                      location: "корпус: " + this.device.build + " кабинет: " + this.device.office,
-                      message: "Картридж заменён"
-                  });
               }
           },
             device_off: function(newVal) {
@@ -303,7 +319,7 @@
             },
             toner_level: function(curr, max) {
                 if(curr>0) {
-                    return 100 * curr / max;
+                    return Math.round(10000 * curr / max)/100;
                 }else{
                     return 0;
                 }
@@ -317,7 +333,7 @@
 
             },
             start_toner_alarm: function() {
-
+                if(this.device.inreport) {
                     if (!this.device.type) {
                         if (+this.device.result.black_toner[3] < 2) {
                             this.addPopup({
@@ -366,6 +382,7 @@
                             });
                         }
                     }
+                }
             },
             start_paper: function() {
                 if (this.device.convenience) {
@@ -399,7 +416,7 @@
                 }
             },
             device_off: function(l) {
-                if(this.device.statusl){
+                if(this.device.status){
                     this.addPopup({
                         id: Date.now(),
                         type: false,
@@ -428,6 +445,7 @@
             this.attentions[0].opacity = this.toner_alarm;
             this.attentions[1].opacity = this.snmp_error;
             this.attentions[2].opacity = this.paper;
+            this.attentions[3].svg = this.activity_date;
             this.start_toner_alarm();
             this.start_paper();
         },

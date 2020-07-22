@@ -1,11 +1,14 @@
 <template>
-    <li><a href="#"><img :style="style" :src=this.svg></a></li>
+    <li><a href="#">
+        <template v-if="this.img"><img :style="style" :src=this.svg></template>
+        <template v-else>{{this.svg}}</template>
+    </a></li>
 </template>
 
 <script>
     export default {
         name: "Button",
-        props: ["svg", "opacity"],
+        props: ["svg", "opacity", "img"],
         computed: {
           style() {
               if (this.opacity) {
@@ -41,6 +44,8 @@
         pointer-events: all;
         background-color: white;
         border: 1px solid #cccccc;
+        color: #d81b60;
+        font-weight: bold;
     }
     li a:active {
         box-shadow: 0 2px 5px rgba(0,0,0,0.3);

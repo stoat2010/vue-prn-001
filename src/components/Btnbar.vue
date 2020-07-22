@@ -1,7 +1,7 @@
 <template>
     <div class="bar">
         <ul>
-            <Button v-for="(btn) in this.buttons" :key="btn.id" v-bind:svg="btn.svg" :opacity="btn.opacity"></Button>
+            <Button v-for="(btn) in this.buttons" :key="btn.id" v-bind:svg="btn.svg" :opacity="btn.opacity" :img="btn.img"></Button>
         </ul>
     </div>
 </template>

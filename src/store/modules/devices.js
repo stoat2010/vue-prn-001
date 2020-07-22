@@ -71,7 +71,7 @@ export default {
         },
         allPrintouts(state) {
             let allPrns = 0
-            state.devices.filter(elem=>elem.inreport === true).map(elem=>
+            state.devices/*.filter(elem=>elem.inreport === true)*/.map(elem=>
                 allPrns = allPrns + elem.result.printouts - elem.result.start_printouts
             )
             return allPrns
