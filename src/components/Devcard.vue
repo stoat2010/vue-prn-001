@@ -62,6 +62,7 @@
     const Report = require('@/assets/icons/insert_chart_outlined-24px.svg')
     const Timer = require('@/assets/icons/av_timer-24px.svg')
     const Trash = require('@/assets/icons/delete-24px.svg')
+    const Pending = require('@/assets/icons/pending-24px.svg')
 
     import Tonerlevel from './Tonerlevel'
     import Chart from './Chart'
@@ -92,7 +93,8 @@
                     {id: 1, svg: Camera, opacity: 0.1, img: true},
                     {id: 2, svg: Report, opacity:this.changeOpacity("inreport"), img: true},
                     {id: 3, svg: Timer, opacity: this.changeOpacity("convenience"), img: true},
-                    {id: 4, svg: Trash, opacity: 1, fill: "black", img: true},
+                    {id: 4, svg: Pending, opacity: 1, fill: "black", img: true},
+                    {id: 5, svg: Trash, opacity: 1, fill: "black", img: true},
                 ],
                 myVar: undefined,
 
@@ -436,9 +438,11 @@
             },
             addYear: function() {
                 this.year = this.year + 1
+                this.fetchGraphs([this.device.name, this.year])
             },
             delYear: function() {
                 this.year = this.year - 1
+                this.fetchGraphs([this.device.name, this.year])
             },
         },
         created() {

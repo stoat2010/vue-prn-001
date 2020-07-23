@@ -27,6 +27,7 @@
                 this.renderChart({
                     datasets: [
                         {
+                            borderWidth: 1,
                             borderColor: 'rgb(0, 0, 0)',
                             //backgroundColor: 'rgba(187, 222, 251, 1)',
                             //backgroundColor: 'rgba(0, 0, 0, 0.5)',
