@@ -9,6 +9,21 @@ export default {
             const res = await fetch('http://172.25.0.22:3333/api/datagraph/' + device[0] + '/'+ device[1] +'/')
             const graphs = await res.json()
             ctx.commit('getGraphs', graphs)
+        },
+        async addDev(ctx, body){
+            console.log(body)
+            const opts = {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body)
+            }
+            const res = await fetch('http://172.25.0.22:3333/api/devices', opts)
+            console.log(res)
+            const data = await res.json()
+            console.log(data)
         }
     },
     mutations: {

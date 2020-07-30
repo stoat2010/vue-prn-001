@@ -4,23 +4,23 @@
             <div class="form">
                 <h2>Добавить устройство</h2>
                 <div class="form__group field">
-                    <input type="input" class="form__field" placeholder="F.Q.D.N." name="name" id='name' required />
+                    <input type="input" class="form__field" placeholder="F.Q.D.N." name="name" id='name' v-model="add_body.name" required />
                 </div>
                 <div class="select">
-                    <select name="slct" id="slct">
+                    <select name="slct" id="slct" v-model="add_body.template">
                         <option selected disabled>Шаблон опроса устройства</option>
-                        <option v-for="template in this.allTemplates" value="template.name[0]">{{template.text}}</option>
+                        <option v-for="template in this.allTemplates" v-bind:value='template.name[0]'>{{template.text}}</option>
                     </select>
                 </div>
                 <div class="select">
-                    <select name="type" id="type">
-                        <option selected value="false">Монохромный</option>
-                        <option value="true">Цветной</option>
+                    <select name="type" id="type" v-model="add_body.type">
+                        <option selected v-bind:value=false>Монохромный</option>
+                        <option v-bind:value=true>Цветной</option>
                     </select>
                 </div>
                 <div class="btns">
-                    <a href="#" id="submit" v-on:click.prevent="toggleBlur(getBlur)">ДОБАВИТЬ</a>
-                    <a href="#" id="clear" v-on:click.prevent="toggleBlur(getBlur)">ОЧИСТИТЬ</a>
+                    <a href="#" id="submit" v-on:click.prevent="()=>{addDev(add_body);toggleBlur(getBlur)}">ДОБАВИТЬ</a>
+                    <a href="#" id="clear" v-on:click.prevent="clearFrm()">ОЧИСТИТЬ</a>
                     <a href="#" id="close" v-on:click.prevent="toggleBlur(getBlur)">ЗАКРЫТЬ</a>
                 </div>
             </div>
@@ -34,12 +34,26 @@
 
     export default {
         name: "Addfrm",
+        data() {
+            return {
+                add_body: {
+                    name: '',
+                    template: '',
+                    type: false,
+                },
+            }
+        },
         computed: {
             ...mapGetters(['allTemplates', 'getBlur']),
         },
         methods: {
             ...mapMutations(['toggleBlur']),
-            ...mapActions(['fetchTemplates'])
+            ...mapActions(['fetchTemplates', 'addDev']),
+            clearFrm: function() {
+                this.add_body.name = ''
+                this.add_body.template = ''
+                this.add_body.type = false
+            }
         },
         mounted() {
             this.fetchTemplates()
